@@ -38,12 +38,29 @@ class Training:
 
 class Running(Training):
     """Тренировка: бег."""
-    pass
+    def get_spent_calories(self) -> float:
+        coeff_calorie_1: int = 18
+        coeff_calorie_2: int = 20
+        calories: float = ((coeff_calorie_1
+                           * self.get_mean_speed - coeff_calorie_2)
+                           * self.weight / self.M_IN_KM * self.duration)
+        return calories
 
 
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
-    pass
+    def __init__(self, action: int,
+                 duration: float,
+                 weight: float,
+                 height: float) -> None:
+        super().__init__(action, duration, weight)
+        self.height = height
+        coeff_calorie_1: int = 0.035
+        coeff_calorie_2: int = 0.29
+        calories: float = (coeff_calorie_1 * weight
+                           + (self.get_mean_speed() ** 2 // height)
+                           * coeff_calorie_2 * weight) * duration
+        return calories
 
 
 class Swimming(Training):
